@@ -4,18 +4,18 @@ import multiprocessing as mp
 import os
 import time
 
-import cv2
+
 import tqdm
 from detectron2.data.detection_utils import read_image
 from detectron2.utils.logger import setup_logger
 
 from demo.predictor import VisualizationDemo
 from fsdet.config import get_cfg
-
+import cv2
 # constants
 WINDOW_NAME = "COCO detections"
 
-
+ 
 def setup_cfg(args):
     # load config from file and command-line arguments
     cfg = get_cfg()
