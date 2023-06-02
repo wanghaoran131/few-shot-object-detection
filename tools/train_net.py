@@ -15,6 +15,8 @@ You may want to write your own script with your datasets and other customization
 """
 
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
 
 import detectron2.utils.comm as comm
 from detectron2.checkpoint import DetectionCheckpointer
