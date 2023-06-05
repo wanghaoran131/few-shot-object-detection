@@ -79,6 +79,7 @@ def setup(args):
     """
     cfg = get_cfg()
     cfg.merge_from_file(args.config_file)
+    cfg.SOLVER.IMS_PER_BATCH = 4
     if args.opts:
         cfg.merge_from_list(args.opts)
     cfg.freeze()

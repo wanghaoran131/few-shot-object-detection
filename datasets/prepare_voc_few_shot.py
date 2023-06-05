@@ -32,7 +32,7 @@ def generate_seeds(args):
         data_file = "datasets/VOC{}/ImageSets/Main/trainval.txt".format(year)
         with PathManager.open(data_file) as f:
             fileids = np.loadtxt(f, dtype=str).tolist()
-        data.extend(fileids)
+        data.extend(fileids) # concat 2007 and 2012, trainval.txt contains image file names
     for fileid in data:
         year = "2012" if "_" in fileid else "2007"
         dirname = os.path.join("datasets", "VOC{}".format(year))
@@ -45,7 +45,7 @@ def generate_seeds(args):
         for cls in set(clses):
             data_per_cat[cls].append(anno_file)
 
-    result = {cls: {} for cls in data_per_cat.keys()}
+    result = {cls: {} for cls in data_per_cat.keys()} # {'aeroplane': {}, 'bicycle': {}, 'bird': {}, 'boat': {}, 'bottle': {}, 'bus': {}, 'car': {}, 'cat': {}, 'chair': {}, 'cow': {}, 'diningtable': {}, 'dog': {}, 'horse': {}, 'motorbike': {}, ...}
     shots = [1, 2, 3, 5, 10]
     for i in range(args.seeds[0], args.seeds[1]):
         random.seed(i)

@@ -50,7 +50,7 @@ def parse_args():
     parser.add_argument(
         "--data",
         type=str,
-        default="datasets/lvis/lvis_v0.5_train.json",
+        default="datasets/lvis/lvis_v1_train.json",
         help="path to the annotation file",
     )
     parser.add_argument(
@@ -68,7 +68,7 @@ def get_shots(args):
     for a in ann:
         anno_cat[a["category_id"] - 1].append(a)
 
-    anno = []
+    anno = [] # get args.shots annos for each category and concat them, include all if less than args.shots
     for i, c in enumerate(CAT_NAMES):
         if len(anno_cat[i]) < args.shots:
             shots = anno_cat[i]
