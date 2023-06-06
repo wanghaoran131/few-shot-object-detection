@@ -1,8 +1,6 @@
 import contextlib
 import io
 import os
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
 
 import numpy as np
 from detectron2.data import DatasetCatalog, MetadataCatalog
@@ -15,10 +13,10 @@ This file contains functions to parse COCO-format annotations into dicts in "Det
 """
 
 
-__all__ = ["register_meta_coco"]
+__all__ = ["register_meta_CB"]
 
 
-def load_coco_json(json_file, image_root, metadata, dataset_name):
+def load_CB_json(json_file, image_root, metadata, dataset_name):
     """
     Load a json file with COCO's instances annotation format.
     Currently supports instance detection.
@@ -123,23 +121,25 @@ def load_coco_json(json_file, image_root, metadata, dataset_name):
     return dataset_dicts
 
 
-def register_meta_coco(name, metadata, imgdir, annofile):
+def register_meta_CB(name, metadata, imgdir, annofile):
+    '''
+    Register a dataset in LVIS's json annotation format for instance detection.
+    Args:
+        name (str): a name that identifies the dataset, e.g. "lvis_v0.5_train".
+        metadata (dict): extra metadata associated with this dataset.
+            It can be an empty dict.
+        json_file (str): path to the json instance annotation file.
+        image_root (str): directory which contains all the images.
+    '''
     DatasetCatalog.register(
         name,
-        lambda: load_coco_json(annofile, imgdir, metadata, name),
+        lambda: load_CB_json(annofile, imgdir, metadata, name),
     )
-
-    if "_base" in name or "_novel" in name:
-        split = "base" if "_base" in name else "novel"
-        metadata["thing_dataset_id_to_contiguous_id"] = metadata[
-            "{}_dataset_id_to_contiguous_id".format(split)
-        ]
-        metadata["thing_classes"] = metadata["{}_classes".format(split)]
 
     MetadataCatalog.get(name).set(
         json_file=annofile,
         image_root=imgdir,
         evaluator_type="coco",
-        dirname="datasets/coco",
+        dirname="datasets/Children_Books_COCO",
         **metadata,
     )

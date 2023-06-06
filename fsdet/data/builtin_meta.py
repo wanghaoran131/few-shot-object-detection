@@ -13,12 +13,7 @@ COCO_CATEGORIES = [
     {"color": [250, 170, 30], "isthing": 1, "id": 10, "name": "traffic light"},
     {"color": [100, 170, 30], "isthing": 1, "id": 11, "name": "fire hydrant"},
     {"color": [220, 220, 0], "isthing": 1, "id": 13, "name": "stop sign"},
-    {
-        "color": [175, 116, 175],
-        "isthing": 1,
-        "id": 14,
-        "name": "parking meter",
-    },
+    {"color": [175, 116, 175], "isthing": 1, "id": 14, "name": "parking meter"},
     {"color": [250, 0, 30], "isthing": 1, "id": 15, "name": "bench"},
     {"color": [165, 42, 42], "isthing": 1, "id": 16, "name": "bird"},
     {"color": [255, 77, 255], "isthing": 1, "id": 17, "name": "cat"},
@@ -44,12 +39,7 @@ COCO_CATEGORIES = [
     {"color": [45, 89, 255], "isthing": 1, "id": 40, "name": "baseball glove"},
     {"color": [134, 134, 103], "isthing": 1, "id": 41, "name": "skateboard"},
     {"color": [145, 148, 174], "isthing": 1, "id": 42, "name": "surfboard"},
-    {
-        "color": [255, 208, 186],
-        "isthing": 1,
-        "id": 43,
-        "name": "tennis racket",
-    },
+    {"color": [255, 208, 186], "isthing": 1, "id": 43, "name": "tennis racket"},
     {"color": [197, 226, 255], "isthing": 1, "id": 44, "name": "bottle"},
     {"color": [171, 134, 1], "isthing": 1, "id": 46, "name": "wine glass"},
     {"color": [109, 63, 54], "isthing": 1, "id": 47, "name": "cup"},
@@ -108,12 +98,7 @@ COCO_CATEGORIES = [
     {"color": [193, 0, 92], "isthing": 0, "id": 138, "name": "net"},
     {"color": [76, 91, 113], "isthing": 0, "id": 141, "name": "pillow"},
     {"color": [255, 180, 195], "isthing": 0, "id": 144, "name": "platform"},
-    {
-        "color": [106, 154, 176],
-        "isthing": 0,
-        "id": 145,
-        "name": "playingfield",
-    },
+    {"color": [106, 154, 176], "isthing": 0, "id": 145, "name": "playingfield"},
     {"color": [230, 150, 140], "isthing": 0, "id": 147, "name": "railroad"},
     {"color": [60, 143, 255], "isthing": 0, "id": 148, "name": "river"},
     {"color": [128, 64, 128], "isthing": 0, "id": 149, "name": "road"},
@@ -130,12 +115,7 @@ COCO_CATEGORIES = [
     {"color": [7, 246, 231], "isthing": 0, "id": 176, "name": "wall-tile"},
     {"color": [107, 255, 200], "isthing": 0, "id": 177, "name": "wall-wood"},
     {"color": [58, 41, 149], "isthing": 0, "id": 178, "name": "water-other"},
-    {
-        "color": [183, 121, 142],
-        "isthing": 0,
-        "id": 180,
-        "name": "window-blind",
-    },
+    {"color": [183, 121, 142], "isthing": 0, "id": 180, "name": "window-blind"},
     {"color": [255, 73, 97], "isthing": 0, "id": 181, "name": "window-other"},
     {"color": [107, 142, 35], "isthing": 0, "id": 184, "name": "tree-merged"},
     {
@@ -395,9 +375,8 @@ def _get_coco_fewshot_instances_meta():
     ret = _get_coco_instances_meta()
     novel_ids = [k["id"] for k in COCO_NOVEL_CATEGORIES if k["isthing"] == 1]
     novel_dataset_id_to_contiguous_id = {k: i for i, k in enumerate(novel_ids)}
-    novel_classes = [
-        k["name"] for k in COCO_NOVEL_CATEGORIES if k["isthing"] == 1
-    ]
+    novel_classes = [k["name"] for k in COCO_NOVEL_CATEGORIES if k["isthing"] == 1]
+    
     base_categories = [
         k
         for k in COCO_CATEGORIES
@@ -406,6 +385,7 @@ def _get_coco_fewshot_instances_meta():
     base_ids = [k["id"] for k in base_categories]
     base_dataset_id_to_contiguous_id = {k: i for i, k in enumerate(base_ids)}
     base_classes = [k["name"] for k in base_categories]
+
     ret[
         "novel_dataset_id_to_contiguous_id"
     ] = novel_dataset_id_to_contiguous_id
@@ -416,7 +396,7 @@ def _get_coco_fewshot_instances_meta():
 
 
 def _get_lvis_instances_meta_v0_5():
-    from .lvis_v0_5_categories import LVIS_CATEGORIES
+    from lvis_v0_5_categories import LVIS_CATEGORIES
 
     assert len(LVIS_CATEGORIES) == 1230
     cat_ids = [k["id"] for k in LVIS_CATEGORIES]
@@ -433,7 +413,7 @@ def _get_lvis_instances_meta_v0_5():
 
 
 def _get_lvis_fewshot_instances_meta_v0_5():
-    from .lvis_v0_5_categories import LVIS_CATEGORIES_NOVEL
+    from lvis_v0_5_categories import LVIS_CATEGORIES_NOVEL
 
     all_cats = _get_lvis_instances_meta_v0_5()["thing_classes"]
     lvis_categories_sub = [
@@ -455,6 +435,28 @@ def _get_pascal_voc_fewshot_instances_meta():
     return ret
 
 
+CB_CATEGORIES = ['acorn', 'axe', 'backpack', 'badger', 'bag', 'barrel', 'basket', 'bear', 'bed', 'bee', 'bell', 'bench', 'bird', 'birdcage', 'boar', 'boat', 'book', 'bottle', 'bow', 'bowl', 'box', 'bridge', 'broom', 'brush', 'bucket', 'building', 'butterfly', 'camel', 'campfire', 'candle', 'cane', 'cannon', 'car', 'cat', 'cello', 'chair', 'clock', 'couch', 'cow', 'cradle', 'crown', 'cup', 'curtain', 'deer', 'diningTable', 'dog', 'doghouse', 'donkey', 'door', 'dragon', 'drum', 'egg', 'elephant', 'ermine', 'feather', 'female', 'fence', 'fireplace', 'fish', 'fishingRod', 'flag', 'flower', 'flute', 'fox', 'frog', 'glasses', 'globe', 'goat', 'gun', 'hammer', 'hat', 'hedgehog', 'helmet', 'horse', 'hotAirBalloon', 'inkpot', 'insect', 'jackal', 'jar', 'jug', 'kettle', 'kite', 'knife', 'ladder', 'lamp', 'lifebuoy', 'lion', 'lizard', 'lobster', 'male', 'map', 'marmot', 'melon', 'monkey', 'moon', 'musicSheet', 'nest', 'net', 'painting', 'paintingStand', 'pan', 'pear', 'pen', 'penguin', 'piano', 'pickaxe', 'pig', 'pineapple', 'pipe', 'plant', 'plate', 'pot', 'pottedPlant', 'rabbit', 'rake', 'rat', 'rhino', 'sausage', 'saw', 'scale', 'scissors', 'scorpion', 'seal', 'shark', 'sheep', 'shield', 'shovel', 'sieve', 'skate', 'snail', 'snake', 'spear', 'spoon', 'sportsBall', 'squirrel', 'star', 'stool', 'stroller', 'suitcase', 'sun', 'sunflower', 'sword', 'teachingBoard', 'teapot', 'tent', 'tie', 'tiger', 'train', 'tree', 'trumpet', 'tub', 'turtle', 'umbrella', 'vase', 'violin', 'wagon', 'walnut', 'weight', 'whip', 'windmill', 'window', 'wineGlass', 'wolf', 'zebra']
+CB_BASE_CATEGORIES = ['male', 'female', 'bird', 'hat', 'tree', 'dog', 'horse', 'building', 'chair', 'window', 'cat', 'flower', 'diningTable', 'basket', 'boat', 'book', 'curtain', 'cup']
+CB_NOVEL_CATEGORIES = ['acorn', 'axe', 'backpack', 'badger', 'bag', 'barrel', 'bear', 'bed', 'bee', 'bell', 'bench', 'birdcage', 'boar', 'bottle', 'bow', 'bowl', 'box', 'bridge', 'broom', 'brush', 'bucket', 'butterfly', 'camel', 'campfire', 'candle', 'cane', 'cannon', 'car', 'cello', 'clock', 'couch', 'cow', 'cradle', 'crown', 'deer', 'doghouse', 'donkey', 'door', 'dragon', 'drum', 'egg', 'elephant', 'ermine', 'feather', 'fence', 'fireplace', 'fish', 'fishingRod', 'flag', 'flute', 'fox', 'frog', 'glasses', 'globe', 'goat', 'gun', 'hammer', 'hedgehog', 'helmet', 'hotAirBalloon', 'inkpot', 'insect', 'jackal', 'jar', 'jug', 'kettle', 'kite', 'knife', 'ladder', 'lamp', 'lifebuoy', 'lion', 'lizard', 'lobster', 'map', 'marmot', 'melon', 'monkey', 'moon', 'musicSheet', 'nest', 'net', 'painting', 'paintingStand', 'pan', 'pear', 'pen', 'penguin', 'piano', 'pickaxe', 'pig', 'pineapple', 'pipe', 'plant', 'plate', 'pot', 'pottedPlant', 'rabbit', 'rake', 'rat', 'rhino', 'sausage', 'saw', 'scale', 'scissors', 'scorpion', 'seal', 'shark', 'sheep', 'shield', 'shovel', 'sieve', 'skate', 'snail', 'snake', 'spear', 'spoon', 'sportsBall', 'squirrel', 'star', 'stool', 'stroller', 'suitcase', 'sun', 'sunflower', 'sword', 'teachingBoard', 'teapot', 'tent', 'tie', 'tiger', 'train', 'trumpet', 'tub', 'turtle', 'umbrella', 'vase', 'violin', 'wagon', 'walnut', 'weight', 'whip', 'windmill', 'wineGlass', 'wolf', 'zebra']
+
+
+def _get_cb_instances_meta():
+    thing_classes = CB_CATEGORIES
+    cat_ids = [i for i in range(len(thing_classes))]
+    assert min(cat_ids) == 0 and max(cat_ids) == len(cat_ids)-1, "Category ids are not in [0, #categories], as expected"
+    meta = {"thing_classes": thing_classes}
+    return meta
+
+
+def _get_cb_fewshot_instances_meta():
+    ret = _get_cb_instances_meta()
+    novel_classes = CB_NOVEL_CATEGORIES
+    base_classes = CB_BASE_CATEGORIES
+    ret["novel_classes"] = novel_classes
+    ret["base_classes"] = base_classes
+    return ret
+
+
 def _get_builtin_metadata(dataset_name):
     if dataset_name == "coco":
         return _get_coco_instances_meta()
@@ -466,4 +468,8 @@ def _get_builtin_metadata(dataset_name):
         return _get_lvis_fewshot_instances_meta_v0_5()
     elif dataset_name == "pascal_voc_fewshot":
         return _get_pascal_voc_fewshot_instances_meta()
+    elif dataset_name == "children_books":
+        return _get_cb_instances_meta()
+    elif dataset_name == "children_books_fewshot":
+        return _get_cb_fewshot_instances_meta()
     raise KeyError("No built-in metadata for dataset {}".format(dataset_name))

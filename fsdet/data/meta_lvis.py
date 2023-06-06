@@ -7,7 +7,7 @@ from detectron2.structures import BoxMode
 from fsdet.utils.file_io import PathManager
 from fvcore.common.timer import Timer
 
-from .lvis_v0_5_categories import LVIS_CATEGORIES_NOVEL_IDS
+from lvis_v0_5_categories import LVIS_CATEGORIES_NOVEL_IDS
 
 """
 This file contains functions to parse LVIS-format annotations into dicts in the

@@ -21,5 +21,12 @@ class FsDetHandler(PathHandler):
     def _open(self, path, mode="r", **kwargs):
         return PathManager.open(self._get_local_path(path), mode, **kwargs)
 
+'''
+Finally, the FsDetHandler is registered with the PathManager using PathManager.register_handler(FsDetHandler()). 
+This allows the PathManager to use the FsDetHandler for resolving paths and opening files with the fsdet:// prefix.
+
+With this custom handler, you can now use fsdet:// paths to refer to models in the FsDet model zoo, 
+and the PathManager will resolve them correctly.
+'''
 
 PathManager.register_handler(FsDetHandler())

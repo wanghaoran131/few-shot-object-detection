@@ -29,6 +29,7 @@ from fsdet.evaluation import (
     COCOEvaluator,
     DatasetEvaluators,
     LVISEvaluator,
+    CBEvaluator,
     PascalVOCDetectionEvaluator,
     verify_results,
 )
