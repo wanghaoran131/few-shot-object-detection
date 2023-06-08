@@ -136,10 +136,4 @@ def register_meta_children_books(name, metadata, imgdir, annofile):
         dirname="datasets/children_books",
         **metadata,
     )
-
-# register_meta_children_books(
-#     "children_books_train",
-#     {},
-#     "datasets/children_books/train",
-#     "datasets/children_books/annotations/train_annotations.json",
-# )
+    

@@ -145,9 +145,7 @@ class LVISEvaluator(DatasetEvaluator):
         self._results["bbox"] = res
 
 
-def _evaluate_predictions_on_lvis(
-    lvis_gt, lvis_results, iou_type, class_names=None
-):
+def _evaluate_predictions_on_lvis(lvis_gt, lvis_results, iou_type, class_names=None):
     """
     Args:
         iou_type (str):

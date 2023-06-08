@@ -377,18 +377,12 @@ def _get_coco_fewshot_instances_meta():
     novel_dataset_id_to_contiguous_id = {k: i for i, k in enumerate(novel_ids)}
     novel_classes = [k["name"] for k in COCO_NOVEL_CATEGORIES if k["isthing"] == 1]
     
-    base_categories = [
-        k
-        for k in COCO_CATEGORIES
-        if k["isthing"] == 1 and k["name"] not in novel_classes
-    ]
+    base_categories = [k for k in COCO_CATEGORIES if k["isthing"] == 1 and k["name"] not in novel_classes]
     base_ids = [k["id"] for k in base_categories]
     base_dataset_id_to_contiguous_id = {k: i for i, k in enumerate(base_ids)}
     base_classes = [k["name"] for k in base_categories]
 
-    ret[
-        "novel_dataset_id_to_contiguous_id"
-    ] = novel_dataset_id_to_contiguous_id
+    ret["novel_dataset_id_to_contiguous_id"] = novel_dataset_id_to_contiguous_id
     ret["novel_classes"] = novel_classes
     ret["base_dataset_id_to_contiguous_id"] = base_dataset_id_to_contiguous_id
     ret["base_classes"] = base_classes
@@ -400,13 +394,9 @@ def _get_lvis_instances_meta_v0_5():
 
     assert len(LVIS_CATEGORIES) == 1230
     cat_ids = [k["id"] for k in LVIS_CATEGORIES]
-    assert min(cat_ids) == 1 and max(cat_ids) == len(
-        cat_ids
-    ), "Category ids are not in [1, #categories], as expected"
+    assert min(cat_ids) == 1 and max(cat_ids) == len(cat_ids), "Category ids are not in [1, #categories], as expected"
     # Ensure that the category list is sorted by id
-    lvis_categories = [
-        k for k in sorted(LVIS_CATEGORIES, key=lambda x: x["id"])
-    ]
+    lvis_categories = [k for k in sorted(LVIS_CATEGORIES, key=lambda x: x["id"])]
     thing_classes = [k["synonyms"][0] for k in lvis_categories]
     meta = {"thing_classes": thing_classes}
     return meta
@@ -416,9 +406,7 @@ def _get_lvis_fewshot_instances_meta_v0_5():
     from .lvis_v0_5_categories import LVIS_CATEGORIES_NOVEL
 
     all_cats = _get_lvis_instances_meta_v0_5()["thing_classes"]
-    lvis_categories_sub = [
-        k for k in sorted(LVIS_CATEGORIES_NOVEL, key=lambda x: x["id"])
-    ]
+    lvis_categories_sub = [k for k in sorted(LVIS_CATEGORIES_NOVEL, key=lambda x: x["id"])]
     sub_cats = [k["synonyms"][0] for k in lvis_categories_sub]
     mapping = {all_cats.index(c): i for i, c in enumerate(sub_cats)}
     meta = {"thing_classes": sub_cats, "class_mapping": mapping}
@@ -441,6 +429,7 @@ CB_NOVEL_CATEGORIES = ['acorn', 'axe', 'backpack', 'badger', 'bag', 'barrel', 'b
 
 
 def _get_cb_instances_meta():
+    assert len(CB_CATEGORIES) == 164
     thing_classes = CB_CATEGORIES
     cat_ids = [i for i in range(len(thing_classes))]
     assert min(cat_ids) == 0 and max(cat_ids) == len(cat_ids)-1, "Category ids are not in [0, #categories], as expected"
