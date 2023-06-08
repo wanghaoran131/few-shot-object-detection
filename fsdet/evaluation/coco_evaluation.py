@@ -169,16 +169,8 @@ class COCOEvaluator(DatasetEvaluator):
             self._results["bbox"] = {}
             for split, classes, names in [
                 ("all", None, self._metadata.get("thing_classes")),
-                (
-                    "base",
-                    self._base_classes,
-                    self._metadata.get("base_classes"),
-                ),
-                (
-                    "novel",
-                    self._novel_classes,
-                    self._metadata.get("novel_classes"),
-                ),
+                ("base", self._base_classes, self._metadata.get("base_classes")),
+                ("novel", self._novel_classes, self._metadata.get("novel_classes")),
             ]:
                 if (
                     "all" not in self._dataset_name

@@ -10,10 +10,10 @@ INPUT:
   MIN_SIZE_TRAIN: (480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800)
   MIN_SIZE_TEST: 800
 DATASETS:
-  TRAIN: ('Chilren',) # <-- modify this
-  TEST: ('dataset_novel',) # <-- modify this
+  TRAIN: ('children_books_train_freq',) # <-- modify this
+  TEST: ('test_annotations',) # <-- modify this
 SOLVER:
   STEPS: (12000, 16000)
   MAX_ITER: 18000
   WARMUP_ITERS: 100
-OUTPUT_DIR: "checkpoints/new_dataset"
+OUTPUT_DIR: "checkpoints/children_books"

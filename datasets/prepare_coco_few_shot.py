@@ -14,7 +14,8 @@ def parse_args():
 
 
 def generate_seeds(args):
-    data_path = "datasets/cocosplit/datasplit/trainvalno5k.json"
+    # data_path = "datasets/cocosplit/datasplit/trainvalno5k.json"
+    data_path = "coco/annotations/instances_train2014.json"
     data = json.load(open(data_path))
 
     new_all_cats = []
@@ -78,7 +79,7 @@ def generate_seeds(args):
 
 def get_save_path_seeds(path, cls, shots, seed):
     prefix = "full_box_{}shot_{}_trainval".format(shots, cls)
-    save_dir = os.path.join("datasets", "cocosplit", "seed" + str(seed))
+    save_dir = os.path.join("cocosplit", "seed" + str(seed))
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, prefix + ".json")
     return save_path

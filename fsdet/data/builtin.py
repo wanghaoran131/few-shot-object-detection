@@ -19,11 +19,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
 from detectron2.data import MetadataCatalog
 from detectron2.data.datasets.lvis import register_lvis_instances
 
-from builtin_meta import _get_builtin_metadata
-from meta_coco import register_meta_coco
-from meta_lvis import register_meta_lvis
-from meta_pascal_voc import register_meta_pascal_voc
-from meta_CB  import register_meta_CB
+from .builtin_meta import _get_builtin_metadata
+from .meta_coco import register_meta_coco
+from .meta_lvis import register_meta_lvis
+from .meta_pascal_voc import register_meta_pascal_voc
+from .meta_children_books  import register_meta_children_books
 
 # ==== Predefined datasets and splits for COCO ==========
 
@@ -142,31 +142,29 @@ _PREDEFINED_SPLITS_LVIS = {
 
 
 def register_all_lvis(root="datasets"):
-    for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_LVIS.items():
-        for key, (image_root, json_file) in splits_per_dataset.items():
-            # Assume pre-defined datasets live in `./datasets`.
-            register_lvis_instances(
-                key,
-                _get_builtin_metadata(dataset_name),
-                os.path.join(root, json_file)
-                if "://" not in json_file
-                else json_file,
-                os.path.join(root, image_root),
-            )
+    # for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_LVIS.items():
+    #     for key, (image_root, json_file) in splits_per_dataset.items():
+    #         # Assume pre-defined datasets live in `./datasets`.
+    #         register_lvis_instances(
+    #             key,
+    #             _get_builtin_metadata(dataset_name),
+    #             os.path.join(root, json_file)
+    #             if "://" not in json_file
+    #             else json_file,
+    #             os.path.join(root, image_root),
+    #         )
 
     # register meta datasets
     METASPLITS = [
-        (
-            "lvis_v0.5_train_shots",
-            "coco/train2017",
-            "lvissplit/lvis_shots.json",
-        ),
-        (
-            "lvis_v0.5_train_rare_novel",
-            "coco/train2017",
-            "lvis/lvis_v0.5_train_rare.json",
-        ),
+        ("lvis_v0.5_train_freq", "coco/train2017", "lvis/lvis_v0.5_train_freq.json"),
+        ("lvis_v0.5_train_common", "coco/train2017", "lvis/lvis_v0.5_train_common.json"),
+        ("lvis_v0.5_train_rare", "coco/train2017", "lvis/lvis_v0.5_train_rare.json"),
+
+        ("lvis_v0.5_val", "coco/val2017", "lvis/lvis_v0.5_val.json"),
         ("lvis_v0.5_val_novel", "coco/val2017", "lvis/lvis_v0.5_val.json"),
+
+        ("lvis_v0.5_train_shots", "coco/train2017", "lvissplit/lvis_shots.json"),
+        ("lvis_v0.5_train_rare_novel", "coco/train2017", "lvis/lvis_v0.5_train_rare.json"),
     ]
 
     for name, image_root, json_file in METASPLITS:
@@ -260,49 +258,17 @@ def register_all_pascal_voc(root="datasets"):
 
 
 # ==== Predefined splits for CB ==========
-_PREDEFINED_SPLITS_CB = {
-    "Children_Books": {
-        "Children_Books_train": (
-            "Children_Books/train",
-            "Children_Books/annotations/train_annotations.json",
-        ),
-        "Children_Books_train_freq": (
-            "Children_Books/train",
-            "Children_Books/annotations/train_freq.json",
-        ),
-        "Children_Books_train_rare": (
-            "Children_Books/train",
-            "Children_Books/annotations/train_rare.json",
-        ),
-        "Children_Books_test": (
-            "Children_Books/test",
-            "Children_Books/annotations/test_annotations.json",
-        ),
-    }
-}
-
-def register_all_CB(root="datasets"):
-    # for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_CB.items():
-    #     for key, (image_root, json_file) in splits_per_dataset.items():
-    #         # Assume pre-defined datasets live in `./datasets`.
-    #         register_CB_instances(
-    #             key,
-    #             _get_builtin_metadata(dataset_name),
-    #             os.path.join(root, json_file)
-    #             if "://" not in json_file
-    #             else json_file,
-    #             os.path.join(root, image_root),
-    #         )
-
+def register_all_children_books(root="datasets"):
     METASPLITS = [
-        ("Children_Books_trainval_all", "Children_Books_COCO/train", "Children_Books_COCO/annotations/train_annotations.json"),
-        ("Children_Books_trainval_base", "Children_Books_COCO/train", "Children_Books_COCO/annotations/train_annotations.json"),
-        ("Children_Books_trainval_novel", "Children_Books_COCO/train", "Children_Books_COCO/annotations/train_annotations.json")
+        ("children_books_train", "children_books/annotations/train_annotations.json"),
+        ("children_books_test", "children_books/annotations/test_annotations.json"),
+        ("children_books_train_freq", "children_books/children_books_split/children_books_train_freq.json"),
+        ("children_books_train_rare", "children_books/children_books_split/children_books_train_rare.json"),
     ]
 
     for name, image_root, json_file in METASPLITS:
         dataset_name = "children_books_fewshot" if "novel" in name else "children_books"
-        register_meta_CB(
+        register_meta_children_books(
             name,
             _get_builtin_metadata(dataset_name),
             os.path.join(root, json_file)
@@ -316,4 +282,4 @@ def register_all_CB(root="datasets"):
 register_all_coco()
 register_all_lvis()
 register_all_pascal_voc()
-register_all_CB()
+register_all_children_books()

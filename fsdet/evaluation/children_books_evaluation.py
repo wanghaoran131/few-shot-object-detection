@@ -5,7 +5,7 @@ import torch
 import logging
 
 
-class CBEvaluator(DatasetEvaluator):
+class CHILDRENBOOKSEvaluator(DatasetEvaluator):
     def __init__(self, dataset_name, output_dir=None): # initial needed variables
         self._dataset_name = dataset_name
         self._metadata = MetadataCatalog.get(dataset_name)

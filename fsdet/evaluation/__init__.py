@@ -6,6 +6,7 @@ from .evaluator import (
     inference_on_dataset,
 )
 from .lvis_evaluation import LVISEvaluator
+from .children_books_evaluation import CHILDRENBOOKSEvaluator
 from .pascal_voc_evaluation import PascalVOCDetectionEvaluator
 from .testing import print_csv_format, verify_results
 
