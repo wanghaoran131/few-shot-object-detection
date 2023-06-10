@@ -4,8 +4,8 @@ import logging
 # import sys
 # sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
 
-from detectron2.config import global_cfg
-# from fsdet.config import global_cfg
+# from detectron2.config import global_cfg
+from fsdet.config import global_cfg
 
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.structures import BoxMode
@@ -45,7 +45,6 @@ def load_children_books_json(json_file, image_root, metadata, dataset_name=None)
     timer = Timer()
     # read json file
     children_books = COCO(json_file)
-    print("COCO", children_books)
     if timer.seconds() > 1:
         logger.info("Loading {} takes {:.2f} seconds.".format(json_file, timer.seconds()))
 

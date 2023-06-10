@@ -433,7 +433,10 @@ def _get_cb_instances_meta():
     thing_classes = CB_CATEGORIES
     cat_ids = [i for i in range(len(thing_classes))]
     assert min(cat_ids) == 0 and max(cat_ids) == len(cat_ids)-1, "Category ids are not in [0, #categories], as expected"
-    meta = {"thing_classes": thing_classes}
+    meta = {
+        "thing_classes": thing_classes,
+        "novel_classes": CB_NOVEL_CATEGORIES,
+        "base_classes": CB_BASE_CATEGORIES,}
     return meta
 
 
