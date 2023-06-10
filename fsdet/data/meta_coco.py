@@ -124,11 +124,11 @@ def load_coco_json(json_file, image_root, metadata, dataset_name):
 
 
 def register_meta_coco(name, metadata, imgdir, annofile):
-    print("################")
-    print(name) # coco_trainval_novel_10shot_seed5, coco_trainval_novel_10shot_seed8
-    print(metadata)
-    print(imgdir) # datasets/coco/trainval2014, 
-    print(annofile) # datasets/, 
+    # print("################")
+    # print(name) # coco_trainval_novel_10shot_seed5, coco_trainval_novel_10shot_seed8
+    # # print(metadata)
+    # print(imgdir) # datasets/coco/trainval2014, 
+    # print(annofile) # datasets/, 
 
     DatasetCatalog.register(
         name,

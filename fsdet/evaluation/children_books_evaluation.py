@@ -13,6 +13,8 @@ from pycocotools.cocoeval import COCOeval
 import torch
 import logging
 import itertools
+from lvis import LVIS
+from lvis import LVISEval, LVISResults
 
 
 class CHILDRENBOOKSEvaluator(DatasetEvaluator):
@@ -29,21 +31,26 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
             self._logger.warning("Metadata '{}' does not have attribute 'json_file'!".format(dataset_name))
 
         json_file = PathManager.get_local_path(self._metadata.json_file)
-        self._class_names = self._metadata.things_classes
+        self._children_books_gt = LVIS(json_file)
+        self._class_names = self._metadata.thing_classes
         self._base_classes = self._metadata.base_classes
         self._novel_classes = self._metadata.novel_classes
-        self._do_evaluation = len(self._metadata.base_classes) > 0 and "annotations" in self._metadata.dataset
+        self._do_evaluation = len(self._metadata.base_classes) > 0
 
     def reset(self): # reset predictions
         self._predictions = []
         self._children_books_results = []
 
     def process(self, inputs, outputs): # prepare predictions for evaluation
+        print("process")
+        # print(inputs)
+        # print(outputs)
         for input, output in zip(inputs, outputs):
             prediction = {"image_id": input["image_id"]}
-
             if "instances" in output:
                 instances = output["instances"].to(self._cpu_device)
+                print("instances")
+                print(instances)
                 prediction["instances"] = instances_to_coco_json(instances, input["image_id"])
             self._predictions.append(prediction)
 
@@ -78,6 +85,7 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
         Evaluate predictions.
         '''
         self._logger.info("Preparing results for COCO format ...")
+        print(self._predictions)
         self._children_books_results = list(itertools.chain(*[x["instances"] for x in self._predictions]))
 
         # unmap the category ids for COCO
@@ -98,8 +106,13 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
             return
         
         self._logger.info("Evaluating predictions ...")
+
+        # print(len(self._children_books_gt.dataset["annotations"]))
+        print(self._children_books_results)
+        print(self._metadata.base_classes)
+
         res = _evaluate_predictions_on_children_books(
-            self._metadata.dataset, 
+            self._children_books_gt, 
             self._children_books_results, 
             "bbox", 
             catIds=self._metadata.base_classes
@@ -121,7 +134,6 @@ def _evaluate_predictions_on_children_books(
         logger.warning("No predictions from the model! Set scores to -1")
         return {metric: -1 for metric in metrics}
     
-    from lvis import LVISEval, LVISResults
 
     children_books_results = LVISResults(children_books_gt, children_books_results)
     children_books_eval = LVISEval(children_books_gt, children_books_results, iou_type)

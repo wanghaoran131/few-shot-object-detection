@@ -244,6 +244,8 @@ class DefaultPredictor:
 
         inputs = {"image": image, "height": height, "width": width}
         predictions = self.model([inputs])[0]
+
+        print("dedaults ------- predictions: ", predictions)
         return predictions
 
 

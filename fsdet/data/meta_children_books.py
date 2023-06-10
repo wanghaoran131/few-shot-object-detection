@@ -1,13 +1,12 @@
-import contextlib
-import io
 import os
 import logging
 
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
+# import sys
+# sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../..')
 
-import numpy as np
 from detectron2.config import global_cfg
+# from fsdet.config import global_cfg
+
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.structures import BoxMode
 from fsdet.utils.file_io import PathManager
@@ -25,7 +24,7 @@ __all__ = ["register_meta_children_books"]
 CB_NOVEL_CATEGORIES = ['acorn', 'axe', 'backpack', 'badger', 'bag', 'barrel', 'bear', 'bed', 'bee', 'bell', 'bench', 'birdcage', 'boar', 'bottle', 'bow', 'bowl', 'box', 'bridge', 'broom', 'brush', 'bucket', 'butterfly', 'camel', 'campfire', 'candle', 'cane', 'cannon', 'car', 'cello', 'clock', 'couch', 'cow', 'cradle', 'crown', 'deer', 'doghouse', 'donkey', 'door', 'dragon', 'drum', 'egg', 'elephant', 'ermine', 'feather', 'fence', 'fireplace', 'fish', 'fishingRod', 'flag', 'flute', 'fox', 'frog', 'glasses', 'globe', 'goat', 'gun', 'hammer', 'hedgehog', 'helmet', 'hotAirBalloon', 'inkpot', 'insect', 'jackal', 'jar', 'jug', 'kettle', 'kite', 'knife', 'ladder', 'lamp', 'lifebuoy', 'lion', 'lizard', 'lobster', 'map', 'marmot', 'melon', 'monkey', 'moon', 'musicSheet', 'nest', 'net', 'painting', 'paintingStand', 'pan', 'pear', 'pen', 'penguin', 'piano', 'pickaxe', 'pig', 'pineapple', 'pipe', 'plant', 'plate', 'pot', 'pottedPlant', 'rabbit', 'rake', 'rat', 'rhino', 'sausage', 'saw', 'scale', 'scissors', 'scorpion', 'seal', 'shark', 'sheep', 'shield', 'shovel', 'sieve', 'skate', 'snail', 'snake', 'spear', 'spoon', 'sportsBall', 'squirrel', 'star', 'stool', 'stroller', 'suitcase', 'sun', 'sunflower', 'sword', 'teachingBoard', 'teapot', 'tent', 'tie', 'tiger', 'train', 'trumpet', 'tub', 'turtle', 'umbrella', 'vase', 'violin', 'wagon', 'walnut', 'weight', 'whip', 'windmill', 'wineGlass', 'wolf', 'zebra']
 
 
-def load_children_books_json(json_file, image_root, metadata, dataset_name):
+def load_children_books_json(json_file, image_root, metadata, dataset_name=None):
     """
     Load a json file in LVIS's annotation format.
     Args:
@@ -46,6 +45,7 @@ def load_children_books_json(json_file, image_root, metadata, dataset_name):
     timer = Timer()
     # read json file
     children_books = COCO(json_file)
+    print("COCO", children_books)
     if timer.seconds() > 1:
         logger.info("Loading {} takes {:.2f} seconds.".format(json_file, timer.seconds()))
 
@@ -93,7 +93,7 @@ def load_children_books_json(json_file, image_root, metadata, dataset_name):
             # the image_id we're looking at.
             assert anno["image_id"] == image_id
             obj = {"bbox": anno["bbox"], "bbox_mode": BoxMode.XYWH_ABS}
-            if global_cfg.MODEL.ROI_HEADS.NUM_CLASSES == 454:
+            if global_cfg.MODEL.ROI_HEADS.NUM_CLASSES == 146:
                 # Novel classes only
                 if anno["category_id"] - 1 not in CB_NOVEL_CATEGORIES:
                     continue
@@ -107,11 +107,11 @@ def load_children_books_json(json_file, image_root, metadata, dataset_name):
         record["annotations"] = objs
         dataset_dicts.append(record)
     
-    print("dataset_dicts", dataset_dicts)
+    # print("dataset_dicts", dataset_dicts)
     return dataset_dicts
 
 
-def register_meta_children_books(name, metadata, imgdir, annofile):
+def register_meta_children_books(name, metadata, annofile, imgdir):
     '''
     Register a dataset in LVIS's json annotation format for instance detection.
     Args:
@@ -121,9 +121,11 @@ def register_meta_children_books(name, metadata, imgdir, annofile):
         json_file (str): path to the json instance annotation file.
         image_root (str): directory which contains all the images.
     '''
-    # print("register_meta_children_books")
-    # print(name)
-    # print(metadata)
+    # print("################")
+    # print(name) # lvis_v0.5_train_shots, lvis_v0.5_train_rare_novel, lvis_v0.5_val_novel
+    # # print(metadata)
+    # print(imgdir)
+
     DatasetCatalog.register(
         name,
         lambda: load_children_books_json(annofile, imgdir, metadata, name),

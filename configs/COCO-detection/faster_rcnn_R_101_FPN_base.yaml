@@ -7,11 +7,12 @@ MODEL:
   ROI_HEADS:
     NUM_CLASSES: 60
 DATASETS:
-  TRAIN: ('coco_trainval_base',)
+  TRAIN: ('coco_trainval_all',)
   TEST: ('coco_test_base',)
 SOLVER:
   IMS_PER_BATCH: 16
   STEPS: (85000, 100000)
-  MAX_ITER: 110000
+  # MAX_ITER: 110000
+  MAX_ITER: 10
   BASE_LR: 0.001
 OUTPUT_DIR: "checkpoints/coco/faster_rcnn/faster_rcnn_R_101_FPN_base"

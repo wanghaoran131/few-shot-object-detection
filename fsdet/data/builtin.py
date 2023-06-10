@@ -17,6 +17,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/..')
 
 
 from detectron2.data import MetadataCatalog
+from detectron2.data import DatasetCatalog
 from detectron2.data.datasets.lvis import register_lvis_instances
 
 from .builtin_meta import _get_builtin_metadata
@@ -29,46 +30,16 @@ from .meta_children_books  import register_meta_children_books
 
 _PREDEFINED_SPLITS_COCO = {}
 _PREDEFINED_SPLITS_COCO["coco"] = {
-    "coco_2014_train": (
-        "coco/train2014",
-        "coco/annotations/instances_train2014.json",
-    ),
-    "coco_2014_val": (
-        "coco/val2014",
-        "coco/annotations/instances_val2014.json",
-    ),
-    "coco_2014_minival": (
-        "coco/val2014",
-        "coco/annotations/instances_minival2014.json",
-    ),
-    "coco_2014_minival_100": (
-        "coco/val2014",
-        "coco/annotations/instances_minival2014_100.json",
-    ),
-    "coco_2014_valminusminival": (
-        "coco/val2014",
-        "coco/annotations/instances_valminusminival2014.json",
-    ),
-    "coco_2017_train": (
-        "coco/train2017",
-        "coco/annotations/instances_train2017.json",
-    ),
-    "coco_2017_val": (
-        "coco/val2017",
-        "coco/annotations/instances_val2017.json",
-    ),
-    "coco_2017_test": (
-        "coco/test2017",
-        "coco/annotations/image_info_test2017.json",
-    ),
-    "coco_2017_test-dev": (
-        "coco/test2017",
-        "coco/annotations/image_info_test-dev2017.json",
-    ),
-    "coco_2017_val_100": (
-        "coco/val2017",
-        "coco/annotations/instances_val2017_100.json",
-    ),
+    "coco_2014_train": ("coco/train2014", "coco/annotations/instances_train2014.json",),
+    "coco_2014_val": ("coco/val2014", "coco/annotations/instances_val2014.json",),
+    "coco_2014_minival": ("coco/val2014", "coco/annotations/instances_minival2014.json",),
+    "coco_2014_minival_100": ("coco/val2014", "coco/annotations/instances_minival2014_100.json",),
+    "coco_2014_valminusminival": ("coco/val2014", "coco/annotations/instances_valminusminival2014.json",),
+    "coco_2017_train": ("coco/train2017", "coco/annotations/instances_train2017.json",),
+    "coco_2017_val": ("coco/val2017", "coco/annotations/instances_val2017.json",),
+    "coco_2017_test": ("coco/test2017", "coco/annotations/image_info_test2017.json",),
+    "coco_2017_test-dev": ("coco/test2017", "coco/annotations/image_info_test-dev2017.json",),
+    "coco_2017_val_100": ("coco/val2017", "coco/annotations/instances_val2017_100.json",),
 }
 
 
@@ -142,29 +113,29 @@ _PREDEFINED_SPLITS_LVIS = {
 
 
 def register_all_lvis(root="datasets"):
-    # for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_LVIS.items():
-    #     for key, (image_root, json_file) in splits_per_dataset.items():
-    #         # Assume pre-defined datasets live in `./datasets`.
-    #         register_lvis_instances(
-    #             key,
-    #             _get_builtin_metadata(dataset_name),
-    #             os.path.join(root, json_file)
-    #             if "://" not in json_file
-    #             else json_file,
-    #             os.path.join(root, image_root),
-    #         )
+    for dataset_name, splits_per_dataset in _PREDEFINED_SPLITS_LVIS.items():
+        for key, (image_root, json_file) in splits_per_dataset.items():
+            # Assume pre-defined datasets live in `./datasets`.
+            register_lvis_instances(
+                key,
+                _get_builtin_metadata(dataset_name),
+                os.path.join(root, json_file)
+                if "://" not in json_file
+                else json_file,
+                os.path.join(root, image_root),
+            )
 
     # register meta datasets
     METASPLITS = [
-        ("lvis_v0.5_train_freq", "coco/train2017", "lvis/lvis_v0.5_train_freq.json"),
-        ("lvis_v0.5_train_common", "coco/train2017", "lvis/lvis_v0.5_train_common.json"),
-        ("lvis_v0.5_train_rare", "coco/train2017", "lvis/lvis_v0.5_train_rare.json"),
+        # ("lvis_v0.5_train_freq", "coco/train2017", "lvis/lvis_v0.5_train_freq.json"),
+        # ("lvis_v0.5_train_common", "coco/train2017", "lvis/lvis_v0.5_train_common.json"),
+        # ("lvis_v0.5_train_rare", "coco/train2017", "lvis/lvis_v0.5_train_rare.json"),
 
-        ("lvis_v0.5_val", "coco/val2017", "lvis/lvis_v0.5_val.json"),
         ("lvis_v0.5_val_novel", "coco/val2017", "lvis/lvis_v0.5_val.json"),
+        # ("lvis_v0.5_val_novel", "coco/val2017", "lvis/lvis_v0.5_val.json"), # Validation set with only novel categories.
 
         ("lvis_v0.5_train_shots", "coco/train2017", "lvissplit/lvis_shots.json"),
-        ("lvis_v0.5_train_rare_novel", "coco/train2017", "lvis/lvis_v0.5_train_rare.json"),
+        # ("lvis_v0.5_train_rare_novel", "coco/train2017", "lvis/lvis_v0.5_train_rare.json"),
     ]
 
     for name, image_root, json_file in METASPLITS:
@@ -260,10 +231,10 @@ def register_all_pascal_voc(root="datasets"):
 # ==== Predefined splits for CB ==========
 def register_all_children_books(root="datasets"):
     METASPLITS = [
-        ("children_books_train", "children_books/annotations/train_annotations.json"),
-        ("children_books_test", "children_books/annotations/test_annotations.json"),
-        ("children_books_train_freq", "children_books/children_books_split/children_books_train_freq.json"),
-        ("children_books_train_rare", "children_books/children_books_split/children_books_train_rare.json"),
+        ("children_books_train", "children_books/train", "children_books/annotations/train_annotations.json"),
+        ("children_books_test", "children_books/test", "children_books/annotations/test_annotations.json"),
+        ("children_books_train_base", "children_books/train", "children_books_split/children_books_train_freq.json"),
+        ("children_books_train_novel", "children_books/train", "children_books_split/children_books_train_rare.json"),
     ]
 
     for name, image_root, json_file in METASPLITS:
@@ -276,6 +247,13 @@ def register_all_children_books(root="datasets"):
             else json_file,
             os.path.join(root, image_root),
         )
+
+
+# for dataset in DatasetCatalog.list():
+#     print(dataset)
+
+# DatasetCatalog.clear()
+# print("------------------after clear")
 
 
 # Register them all under "./datasets"

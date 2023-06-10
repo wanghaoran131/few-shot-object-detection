@@ -19,7 +19,8 @@ SOLVER:
   IMS_PER_BATCH: 16
   BASE_LR: 0.001
   STEPS: (14400,)
-  MAX_ITER: 16000
+  # MAX_ITER: 16000
+  MAX_ITER: 10
   CHECKPOINT_PERIOD: 1600
   WARMUP_ITERS: 0
 OUTPUT_DIR: "checkpoints/coco/faster_rcnn/faster_rcnn_R_101_FPN_ft_all_1shot_unfreeze"

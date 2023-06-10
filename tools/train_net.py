@@ -55,6 +55,7 @@ class Trainer(DefaultTrainer):
             output_folder = os.path.join(cfg.OUTPUT_DIR, "inference")
         evaluator_list = []
         evaluator_type = MetadataCatalog.get(dataset_name).evaluator_type
+        print("train_net.py", output_folder)
         if evaluator_type == "coco":
             evaluator_list.append(
                 COCOEvaluator(dataset_name, cfg, True, output_folder)
@@ -63,7 +64,7 @@ class Trainer(DefaultTrainer):
             return PascalVOCDetectionEvaluator(dataset_name)
         if evaluator_type == "lvis":
             return LVISEvaluator(dataset_name, cfg, True, output_folder)
-        if evaluator_type == "childrenbooks":
+        if evaluator_type == "children_books":
             return CHILDRENBOOKSEvaluator(dataset_name, cfg, True, output_folder)
         if len(evaluator_list) == 0:
             raise NotImplementedError(

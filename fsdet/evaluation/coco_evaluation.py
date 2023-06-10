@@ -109,7 +109,7 @@ class COCOEvaluator(DatasetEvaluator):
 
             if not comm.is_main_process():
                 return {}
-
+        print("coco_evaluation.py: evaluate", self._predictions)
         if len(self._predictions) == 0:
             self._logger.warning(
                 "[COCOEvaluator] Did not receive valid predictions."

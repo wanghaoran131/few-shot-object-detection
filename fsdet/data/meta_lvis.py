@@ -50,7 +50,6 @@ def load_filtered_lvis_json(
                 json_file, timer.seconds()
             )
         )
-
     if dataset_name is not None and "train" in dataset_name:
         assert global_cfg.MODEL.ROI_HEADS.NUM_CLASSES == len(
             metadata["thing_classes"]
@@ -78,6 +77,7 @@ def load_filtered_lvis_json(
     dataset_dicts = []
 
     for (img_dict, anno_dict_list) in imgs_anns:
+        print(img_dict.keys())
         record = {}
         file_name = img_dict["file_name"]
         if img_dict["file_name"].startswith("COCO"):
@@ -124,11 +124,11 @@ def register_meta_lvis(name, metadata, json_file, image_root):
         json_file (str): path to the json instance annotation file.
         image_root (str): directory which contains all the images.
     """
-    print("################")
-    print(name) # lvis_v0.5_train_shots, lvis_v0.5_train_rare_novel, lvis_v0.5_val_novel
-    print(metadata)
-    print(json_file) # datasets/lvissplit/lvis_shots.json, datasets/lvis/lvis_v0.5_train_rare.json, datasets/lvis/lvis_v0.5_val.json
-    print(image_root) # datasets/coco/train2017, datasets/coco/train2017, datasets/coco/val2017
+    # print("################")
+    # print(name) # lvis_v0.5_train_shots, lvis_v0.5_train_rare_novel, lvis_v0.5_val_novel
+    # # print(metadata)
+    # print(json_file) # datasets/lvissplit/lvis_shots.json, datasets/lvis/lvis_v0.5_train_rare.json, datasets/lvis/lvis_v0.5_val.json
+    # print(image_root) # datasets/coco/train2017, datasets/coco/train2017, datasets/coco/val2017
     DatasetCatalog.register(
         name,
         lambda: load_filtered_lvis_json(json_file, image_root, metadata, name),
