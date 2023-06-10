@@ -388,14 +388,8 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
             return {metric: -1 for metric in metrics}
 
         # the standard metrics
-        results = {
-            metric: float(coco_eval.stats[idx] * 100)
-            for idx, metric in enumerate(metrics)
-        }
-        self._logger.info(
-            "Evaluation results for {}: \n".format(iou_type)
-            + create_small_table(results)
-        )
+        results = {metric: float(coco_eval.stats[idx] * 100) for idx, metric in enumerate(metrics)}
+        self._logger.info("Evaluation results for {}: \n".format(iou_type) + create_small_table(results))
 
         if class_names is None or len(class_names) <= 1:
             return results
@@ -409,7 +403,7 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
         for idx, name in enumerate(class_names):
             # area range index 0: all area ranges
             # max dets index -1: typically 100 per image
-            precision = precisions[:, :, idx, 0, -1]
+            precision = precisions[:, :, idx+1, 0, -1] ######## idx + 1
             precision = precision[precision > -1]
             ap = np.mean(precision) if precision.size else float("nan")
             results_per_category.append(("{}".format(name), float(ap * 100)))
