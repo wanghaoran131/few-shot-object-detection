@@ -248,7 +248,7 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
 
             if not comm.is_main_process():
                 return {}
-        print("coco_evaluation.py: evaluate", self._predictions)
+        
         if len(self._predictions) == 0:
             self._logger.warning(
                 "[COCOEvaluator] Did not receive valid predictions."
@@ -257,9 +257,7 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
 
         if self._output_dir:
             PathManager.mkdirs(self._output_dir)
-            file_path = os.path.join(
-                self._output_dir, "instances_predictions.pth"
-            )
+            file_path = os.path.join(self._output_dir, "instances_predictions.pth")
             with PathManager.open(file_path, "wb") as f:
                 torch.save(self._predictions, f)
 
