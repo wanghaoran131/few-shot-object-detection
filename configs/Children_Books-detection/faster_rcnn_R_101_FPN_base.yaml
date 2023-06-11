@@ -7,11 +7,13 @@ MODEL:
   ROI_HEADS:
     NUM_CLASSES: 164 # This defines the number of object classes the model should predict. In this configuration, the model is trained to detect objects from 164 different classes.
 DATASETS:
-  TRAIN: ('children_books_train_base',)
-  TEST: ('children_books_train_novel',)
+  # TRAIN: ('children_books_train_base',)
+  # TEST: ('children_books_train_novel',)
+  TRAIN: ('children_books_test',)
+  TEST: ('children_books_test',)
 SOLVER:
   IMS_PER_BATCH: 16
   STEPS: (85000, 100000) # This defines the iteration steps at which the learning rate is adjusted during training. In this case, the learning rate is reduced at 85,000 and 100,000 iterations.
-  MAX_ITER: 10000 # This specifies the maximum number of iterations for training the model. The training process will iterate through the dataset and update the model's parameters until this maximum number of iterations is reached.
+  MAX_ITER: 10 # This specifies the maximum number of iterations for training the model. The training process will iterate through the dataset and update the model's parameters until this maximum number of iterations is reached.
   BASE_LR: 0.001
 OUTPUT_DIR: "checkpoints/children_books/faster_rcnn/faster_rcnn_R_101_FPN_base"

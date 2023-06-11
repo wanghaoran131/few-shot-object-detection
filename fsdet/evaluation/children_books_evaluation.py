@@ -208,6 +208,7 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
         # ]
         # fmt: on
 
+        # read test json file
         json_file = PathManager.get_local_path(self._metadata.json_file)
         with contextlib.redirect_stdout(io.StringIO()):
             self._coco_api = COCO(json_file)
