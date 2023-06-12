@@ -381,9 +381,7 @@ class CHILDRENBOOKSEvaluator(DatasetEvaluator):
         metrics = ["AP", "AP50", "AP75", "APs", "APm", "APl"]
 
         if coco_eval is None:
-            self._logger.warn(
-                "No predictions from the model! Set scores to -1"
-            )
+            self._logger.warn("No predictions from the model! Set scores to -1")
             return {metric: -1 for metric in metrics}
 
         # the standard metrics
