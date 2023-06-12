@@ -16,14 +16,14 @@ MODEL:
 DATASETS:
   # TRAIN: ('children_books_train_base',)
   # TEST: ('children_books_train_novel',)
-  TRAIN: ('children_books_test',)
+  TRAIN: ('children_books_train_base',)
   TEST: ('children_books_test',)
   # PRECOMPUTED_PROPOSAL_TOPK_TRAIN: 50000
   # PRECOMPUTED_PROPOSAL_TOPK_TEST: 20000
 SOLVER:
   IMS_PER_BATCH: 16
-  STEPS: (85000, 100000) # This defines the iteration steps at which the learning rate is adjusted during training. In this case, the learning rate is reduced at 85,000 and 100,000 iterations.
-  MAX_ITER: 10 # This specifies the maximum number of iterations for training the model. The training process will iterate through the dataset and update the model's parameters until this maximum number of iterations is reached.
+  STEPS: (15000, ) # This defines the iteration steps at which the learning rate is adjusted during training. In this case, the learning rate is reduced at 85,000 and 100,000 iterations.
+  MAX_ITER: 20000 # This specifies the maximum number of iterations for training the model. The training process will iterate through the dataset and update the model's parameters until this maximum number of iterations is reached.
   BASE_LR: 0.001
 INPUT:
   MIN_SIZE: (416,)

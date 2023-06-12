@@ -363,10 +363,15 @@ def _get_coco_instances_meta():
     # Mapping from the incontiguous COCO category id to an id in [0, 79]
     thing_dataset_id_to_contiguous_id = {k: i for i, k in enumerate(thing_ids)}
     thing_classes = [k["name"] for k in COCO_CATEGORIES if k["isthing"] == 1]
+    novel_classes = [k["name"] for k in COCO_NOVEL_CATEGORIES if k["isthing"] == 1]
+    base_categories = [k for k in COCO_CATEGORIES if k["isthing"] == 1 and k["name"] not in novel_classes]
+    base_classes = [k["name"] for k in base_categories]
     ret = {
         "thing_dataset_id_to_contiguous_id": thing_dataset_id_to_contiguous_id,
         "thing_classes": thing_classes,
         "thing_colors": thing_colors,
+        "novel_classes": novel_classes,
+        "base_classes": base_classes,
     }
     return ret
 
